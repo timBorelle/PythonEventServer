@@ -4,19 +4,13 @@ services:
     image: mongo:5.0
     ports:
       - "27017:27017"
-    #environment:
-    #  MONGO_INITDB_ROOT_USERNAME: root
-    #  MONGO_INITDB_ROOT_PASSWORD: example
-    #volumes:
-    #  - ./mongo:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: local
   
   mongo-express:
     image: mongo-express:0.54.0
     ports:
       - "7081:8081"
-    #environment:
-    #  ME_CONFIG_MONGODB_ADMINUSERNAME: root
-    #  ME_CONFIG_MONGODB_ADMINPASSWORD: example
     depends_on:
       - mongo
 
@@ -45,3 +39,10 @@ services:
       - 80:80
     depends_on:
       - backend
+  
+  cli-client:
+    image: odise/busybox-curl:latest
+    command: /bin/sh -c "while true; do echo; sleep 10; done;"
+    depends_on:
+      - backend
+
